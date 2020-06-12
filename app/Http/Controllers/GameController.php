@@ -1,0 +1,168 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Game;
+use App\Release;
+use App\Filters\GameFilters;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+
+class GameController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  GameFilters $filters
+     * @return \Illuminate\Http\Response
+     */
+    public function index(GameFilters $filters)
+    {
+        return Game::with([
+            'genres',
+            'developer',
+        ])->filter($filters)->orderBy('popularity_rank', 'asc')->paginate(10);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Custom error messages
+        $messages = [
+            'unique' => 'This game already exists',
+        ];
+
+        // Validate
+        Validator::make($request->all(), [
+            'title' => 'required|unique:games',
+            'synopsis' => 'required|min:10',
+            'icon' => 'required|base64image|base64mimes:jpeg,png|base64dimensions:min_width=350,max_width=350,min_height=350,max_height=350|base64between:0,500',
+            'banner' => 'required|base64image|base64mimes:jpeg,png|base64dimensions:min_width=1000,min_height=500|base64between:0,7000',
+            'developer_id' => 'required',
+            'genre_ids' => 'required',
+        ], $messages)->validate();
+
+        // Create
+        $game = Game::create([
+            'user_id' => $request->user()->id,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'synopsis' => $request->synopsis,
+            'icon' => "default.png",
+            'banner' => "default.png",
+            'developer_id' => $request->developer_id
+        ]);
+
+        // Attach genres
+        $game->genres()->sync($request->genre_ids);
+
+        // Upload icon
+        $icon = Image::make($request->get('icon'));
+        $iconName = $game->id.'.'.explode('/', $icon->mime() )[1];
+        Storage::disk('s3')->put("games/icons/$iconName", (string) $icon->stream(), 'public');
+
+        // Upload banner
+        $banner = Image::make($request->get('banner'));
+        $bannerName = $game->id.'.'.explode('/', $banner->mime() )[1];
+        Storage::disk('s3')->put("games/banners/$bannerName", (string) $banner->stream(), 'public');
+
+        // Update game properties
+        $game->icon = $iconName;
+        $game->banner = $bannerName;
+        $game->save();
+
+        return response()->json($game->load('developer', 'genres', 'releases'), 201);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Game $game)
+    {
+        $game->trending_page_views += 1;
+        $game->save();
+
+        $game->load([
+            'genres',
+            'developer',
+            'releases' => function($q) {$q->with('platform', 'publisher', 'region', 'codeveloper', 'dateType');}
+        ]);
+
+        return $game;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Game $game)
+    {
+        // Validate
+        $this->validate($request, [
+            'title' => 'required|unique:games,title,'.$game->id,
+            'synopsis' => 'required|min:10',
+            'icon' => 'nullable|base64image|base64mimes:jpeg,png|base64dimensions:min_width=350,max_width=350,min_height=350,max_height=350|base64between:0,1000',
+            'banner' => 'nullable|base64image|base64mimes:jpeg,png|base64dimensions:min_width=1000,min_height=500|base64between:0,7000',
+            'developer_id' => 'required',
+            'genre_ids' => 'required',
+        ]);
+
+        // Update icon
+        if(!empty($request->icon)) {
+            !empty($game->icon) ? Storage::disk('s3')->delete("games/icons/$game->icon") : '';
+            $icon = Image::make($request->get('icon'));
+            $iconName = $game->id.'.'.explode('/', $icon->mime() )[1];
+            Storage::disk('s3')->put("games/icons/$iconName", (string) $icon->stream(), 'public');
+            $game->icon = $iconName;
+        }
+
+        // Update banner
+        if(!empty($request->banner)) {
+            !empty($game->banner) ? Storage::disk('s3')->delete("games/banners/$game->banner") : '';
+            $banner = Image::make($request->get('banner'));
+            $bannerName = $game->id.'.'.explode('/', $banner->mime() )[1];
+            Storage::disk('s3')->put("games/banners/$bannerName", (string) $banner->stream(), 'public');
+            $game->banner = $bannerName;
+        }
+
+        // Update game properties
+        $game->title = $request->title;
+        $game->slug = Str::slug($request->title);
+        $game->synopsis = $request->synopsis;
+        $game->developer_id = $request->developer_id;
+        $game->genres()->sync($request->genre_ids);
+        $game->save();
+
+        return response()->json($game->load('developer', 'genres', 'releases'), 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Game $game)
+    {    
+        Storage::disk('s3')->delete("games/banners/$game->banner");
+        Storage::disk('s3')->delete("games/icons/$game->icon");
+
+        $game->delete();
+
+        return response()->json(null, 204);
+    }
+}
