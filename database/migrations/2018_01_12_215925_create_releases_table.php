@@ -29,7 +29,7 @@ class CreateReleasesTable extends Migration
             $table->string('alternate_title')->nullable();
             $table->timestamps();
 
-            $table->unique(['game_id', 'platform_id', 'publisher_id', 'region_id']);
+            $table->unique(['game_id', 'platform_id', 'publisher_id', 'region_id', 'alternate_title']);
         });
     }
 
