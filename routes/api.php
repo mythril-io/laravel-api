@@ -84,7 +84,7 @@ Route::get('platforms/all', 'PlatformController@all');
 Route::get('genres/all', 'GenreController@all');
 Route::get('developers/all', 'DeveloperController@all');
 Route::get('publishers/all', 'PublisherController@all');
-Route::get('playstatuses/all', 'PlaystatusController@all');
+Route::get('playstatuses/all', 'PlayStatusController@all');
 Route::get('datetypes/all', 'DateTypeController@all');
 Route::get('regions/all', 'RegionController@all');
 

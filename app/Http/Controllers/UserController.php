@@ -236,8 +236,12 @@ class UserController extends Controller
             'favoriteable'  => function($q) {$q->with('platform', 'publisher', 'codeveloper', 'dateType', 'region');},
         ])->whereHasMorph('favoriteable', ['App\Release'], function ($q) use (&$game) {
             $q->where('game_id', $game->id);
-        })->first()->makeHidden(['user_id', 'favoriteable_id', 'favoriteable_type', 'updated_at', 'created_at']);  
+        })->first();  
         
+        if($favourite) {
+            $favourite->makeHidden(['user_id', 'favoriteable_id', 'favoriteable_type', 'updated_at', 'created_at']);
+        }
+
         return $favourite;
     }
 
