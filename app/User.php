@@ -10,6 +10,8 @@ use Overtrue\LaravelLike\Traits\Liker;
 use Overtrue\LaravelSubscribe\Traits\Subscriber;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
 use Overtrue\LaravelFollow\Followable;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\VerifyEmail as EmailVerificationNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -82,5 +84,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getRolenamesAttribute()
     {
         return collect($this->roles)->pluck(['name'])->all();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new EmailVerificationNotification());
     }
 }
