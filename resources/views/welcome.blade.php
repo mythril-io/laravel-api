@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Mythril</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -65,34 +65,20 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <a href="https://mythril.io">
+                        <img class="block h-8 w-auto" src="https://raw.githubusercontent.com/mythril-io/mythril-ui/master/src/assets/logo.svg?sanitize=true" alt="Mythril.io" />
+                    </a>
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://mythril.io">Website</a>
+                    <a href="https://twitter.com/mythril_io">Twitter</a>
+                    <a href="https://discord.com/invite/yEbb4B2">Discord</a>
+                    <a href="https://www.youtube.com/channel/UCzyb3oKRlLgd9Bf6K7qHEoA">YouTube</a>
+                    <a href="https://github.com/mythril-io">GitHub</a>
                 </div>
             </div>
         </div>
