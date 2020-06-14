@@ -7,6 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class VerifyEmail extends Notification
 {
@@ -42,7 +45,10 @@ class VerifyEmail extends Notification
     public function toMail($notifiable)
     {
         $token = sha1($notifiable->getEmailForVerification());
-        $url = "https://mythril.io/email/verify/{$notifiable->getKey()}/{$token}";
+        $verificationURL = $this->verificationUrl($notifiable);
+        $query = parse_url($verificationURL, PHP_URL_QUERY);
+
+        $url = "https://mythril.io/email/verify/{$notifiable->getKey()}/{$token}?{$query}";
 
         return (new MailMessage)
             ->subject(Lang::get('Verify Email Address'))
@@ -62,5 +68,23 @@ class VerifyEmail extends Notification
         return [
             //
         ];
+    }
+
+    /**
+     * Get the verification URL for the given notifiable.
+     *
+     * @param  mixed  $notifiable
+     * @return string
+     */
+    protected function verificationUrl($notifiable)
+    {
+        return URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
     }
 }
