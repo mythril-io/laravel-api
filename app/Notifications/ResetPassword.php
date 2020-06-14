@@ -43,7 +43,8 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = "https://mythril.io/password/reset/{$this->token}";
+        $email = $notifiable->getEmailForPasswordReset();
+        $url = "https://mythril.io/password/reset/{$this->token}?email={$email}";
 
         return (new MailMessage)
                     // ->line('The introduction to the notification.')
