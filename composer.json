@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-gd": "^7.3",
         "crazybooot/base64-validation": "^1.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -23,8 +24,7 @@
         "overtrue/laravel-follow": "^2.1",
         "overtrue/laravel-like": "^2.0",
         "overtrue/laravel-subscribe": "^1.0",
-        "spatie/laravel-permission": "^3.11",
-        "ext-gd": "*"
+        "spatie/laravel-permission": "^3.11"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
