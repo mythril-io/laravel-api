@@ -77,7 +77,7 @@ Route::get('forums/discussions/{discussion}', 'Forums\DiscussionController@show'
 Route::get('forums/discussions/{discussion}/posts', 'Forums\PostController@index');
 
 // Forum Tags
-Route::get('forums/tags', 'Forums\TagController@index');
+Route::get('forums/tags/all', 'Forums\TagController@index');
 
 // Misc
 Route::get('platforms/all', 'PlatformController@all');

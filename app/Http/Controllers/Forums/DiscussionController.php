@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Filters\ForumFilters;
 
 class DiscussionController extends Controller
 {
@@ -14,9 +15,10 @@ class DiscussionController extends Controller
      * Display a listing of the resource.
      *
      * @param  string  $tag
+     * @param  ForumFilters $filters
      * @return \Illuminate\Http\Response
      */
-    public function index($tag = NULL)
+    public function index($tag = NULL, ForumFilters $filters)
     {
         return Discussion::with([
             'user',
@@ -27,7 +29,7 @@ class DiscussionController extends Controller
             return $query->whereHas('tags', function ($query) use ($tag) {
                     $query->where('slug', '=', $tag);
                 });
-        })->orderBy('last_posted_at', 'desc')->paginate(15);
+        })->filter($filters)->paginate(15);
     }
 
     /**
@@ -68,6 +70,9 @@ class DiscussionController extends Controller
      */
     public function show(Discussion $discussion)
     {
+        $discussion->view_count += 1;
+        $discussion->save();
+        
         return $discussion->load([
             'user',
             'tags' => function($q) {$q->select('id', 'name', 'slug', 'colour');},
