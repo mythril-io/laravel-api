@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('games:update-ranks')->twiceDaily(1, 13);
+        $schedule->command('games:reset-trending')->monthly();
     }
 
     /**

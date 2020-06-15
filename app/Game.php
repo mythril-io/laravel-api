@@ -68,4 +68,12 @@ class Game extends Model
         return $this->hasMany('\App\Forums\Discussion');
     }
 
+    /**
+     * The library entries for this game.
+     */
+    public function libraries()
+    {
+        return $this->hasManyThrough(Library::class, Release::class);
+    }
+
 }

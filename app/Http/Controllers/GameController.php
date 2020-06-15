@@ -165,4 +165,45 @@ class GameController extends Controller
 
         return response()->json(null, 204);
     }
+
+    /**
+     * Update score, libraryCount, score_rank, popularity_rank for all games
+     */
+    public static function updateRatings() 
+    {
+      //Update score for all games
+      Game::chunk(100, function ($games) {
+        foreach ($games as $game) {
+          $filtered = $game->libraries()->whereNotNull('score');
+          $score = ($filtered->count() > 0 ? number_format(($filtered->avg('score')/10)*100, 2) : null);
+
+          $game->update(['score' => $score]);
+        }
+      });
+
+      //Update library_count for all games
+      Game::withCount('libraries')->chunk(100, function ($games) {
+        foreach ($games as $game) {
+          $game->update(['library_count' => $game->libraries_count]);
+        }
+      });
+
+      //Update score_rank for all games
+      $scoreRank = 0;
+      Game::orderBy('score', 'desc')->chunk(100, function ($games) use (&$scoreRank) {
+        foreach ($games as $game) {
+          $scoreRank++;
+          $game->update(['score_rank' => $scoreRank]);
+        }
+      });
+
+      //Update popularity_rank for all games
+      $popularityRank = 0;
+      Game::orderBy('library_count', 'desc')->chunk(100, function ($games) use (&$popularityRank) {
+        foreach ($games as $game) {
+          $popularityRank++;
+          $game->update(['popularity_rank' => $popularityRank]);
+        }
+      });
+    }
 }
