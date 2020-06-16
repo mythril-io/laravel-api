@@ -46,7 +46,7 @@ class ReleaseController extends Controller
 
         // Validate
         Validator::make($request->all(), [
-            'game_id' => "required|unique:releases,game_id,NULL,id,platform_id,{$request->platform_id},publisher_id,{$request->publisher_id},region_id,{$request->region_id}",
+            'game_id' => "required|unique:releases,game_id,NULL,id,platform_id,{$request->platform_id},publisher_id,{$request->publisher_id},region_id,{$request->region_id},alternate_title,{$request->alternate_title}",
             'platform_id' => 'required',
             'publisher_id' => 'required',
             'region_id' => 'required',
