@@ -6,6 +6,7 @@ use App\Forums\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Forums\Discussion;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -26,7 +27,48 @@ class PostController extends Controller
             'replies' => function($q) {$q->with(['user']);}
           ])->where('discussion_id', $discussion->id)->paginate(25);
 
+        $num = ($posts->currentPage() - 1) * $posts->perPage() + 1;
+
+        foreach($posts as $post) {
+            $post->num = $num++;
+        }
+
         return $posts;
+    }
+
+    /**
+     * Find the page the post is located for the discussion it belongs to.
+     *
+     * @param  Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function find(Post $post) {
+        
+        $position= Post::where([
+            ['id', '<=', $post->id],
+            ['discussion_id', '=', $post->discussion_id],
+        ])->count();
+
+        $page = ceil($position/25);
+
+        return $page;
+
+        // $posts = Post::with([
+        //     'user',
+        //     'parent' => function($q) {$q->with([
+        //             'user', 
+        //             'parent' => function($q) {$q->with(['user']);}  
+        //         ]);},
+        //     'replies' => function($q) {$q->with(['user']);}
+        //   ])->where('discussion_id', $post->discussion_id)->paginate(25, ['*'], 'page', $page);
+
+        // $num = ($posts->currentPage() - 1) * $posts->perPage() + 1;
+
+        // foreach($posts as $post) {
+        //     $post->num = $num++;
+        // }
+
+        // return $posts;        
     }
 
     /**
@@ -110,6 +152,8 @@ class PostController extends Controller
 
         // Update
         $post->body = $request->body;
+        $post->edit_count++;
+        $post->edited_at = Carbon::now()->toDateTimeString();
         $post->save();
 
         return response()->json($post, 200);

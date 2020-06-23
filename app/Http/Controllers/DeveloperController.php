@@ -14,7 +14,7 @@ class DeveloperController extends Controller
      */
     public function index()
     {
-        return Developer::paginate(20);
+        return Developer::orderBy('name', 'asc')->paginate(20);
     }
 
     /**
@@ -24,7 +24,7 @@ class DeveloperController extends Controller
      */
     public function all()
     {
-        return Developer::get();
+        return Developer::orderBy('name', 'asc')->get();
     }
 
     /**

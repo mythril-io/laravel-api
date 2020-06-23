@@ -14,7 +14,7 @@ class PlatformController extends Controller
      */
     public function index()
     {
-        return Platform::paginate(20);
+        return Platform::orderBy('name', 'asc')->paginate(20);
     }
 
     /**
@@ -24,7 +24,7 @@ class PlatformController extends Controller
      */
     public function all()
     {
-        return Platform::get();
+        return Platform::orderBy('name', 'asc')->get();
     }
 
     /**

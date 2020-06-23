@@ -14,7 +14,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        return Publisher::paginate(20);
+        return Publisher::orderBy('name', 'asc')->paginate(20);
     }
 
     /**
@@ -24,7 +24,7 @@ class PublisherController extends Controller
      */
     public function all()
     {
-        return Publisher::get();
+        return Publisher::orderBy('name', 'asc')->get();
     }
 
     /**
