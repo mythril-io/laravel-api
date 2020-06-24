@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Overtrue\LaravelLike\Traits\Likeable;
 use Overtrue\LaravelSubscribe\Traits\Subscribable;
 use Illuminate\Support\Facades\Auth;
+use \App\Filters\Filterable;
 
 class Discussion extends Model
 {
-    // use Filterable;
-    use Likeable, Subscribable;
+    use Likeable, Subscribable, Filterable;
 
     protected $appends = ['is_subscribed', 'has_liked'];
 

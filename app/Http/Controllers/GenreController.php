@@ -14,7 +14,7 @@ class GenreController extends Controller
      */
     public function index()
     {
-        return Genre::paginate(20);
+        return Genre::orderBy('name', 'asc')->paginate(20);
     }
 
     /**
@@ -24,7 +24,7 @@ class GenreController extends Controller
      */
     public function all()
     {
-        return Genre::get();
+        return Genre::orderBy('name', 'asc')->get();
     }
 
     /**

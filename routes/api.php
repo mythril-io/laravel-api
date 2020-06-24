@@ -75,9 +75,10 @@ Route::get('forums/discussions/{discussion}', 'Forums\DiscussionController@show'
 
 // Forum Posts
 Route::get('forums/discussions/{discussion}/posts', 'Forums\PostController@index');
+Route::get('forums/posts/{post}/find', 'Forums\PostController@find');
 
 // Forum Tags
-Route::get('forums/tags', 'Forums\TagController@index');
+Route::get('forums/tags/all', 'Forums\TagController@index');
 
 // Misc
 Route::get('platforms/all', 'PlatformController@all');
@@ -134,10 +135,13 @@ Route::group([
     // Forum Discussions
     Route::post('forums/discussions', 'Forums\DiscussionController@store' );
     Route::patch('forums/discussions/{discussion}', 'Forums\DiscussionController@update');
+    Route::post('forums/discussions/{discussion}/like', 'Forums\DiscussionController@like');
+    Route::post('forums/discussions/{discussion}/subscribe', 'Forums\DiscussionController@subscribe');
 
     // Forum Posts
     Route::post('forums/discussions/{discussion}', 'Forums\PostController@store');
     Route::patch('forums/posts/{post}', 'Forums\PostController@update');
+    Route::post('forums/posts/{post}/like', 'Forums\PostController@like');
 
 });
 

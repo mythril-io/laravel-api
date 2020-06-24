@@ -18,7 +18,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'discussion_id', 'user_id', 'parent_post_id', 'edit_count'
+        'body', 'discussion_id', 'user_id', 'parent_post_id', 'edit_count', 'edited_at'
     ];
 
     /**
