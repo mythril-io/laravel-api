@@ -72,6 +72,7 @@ Route::get('users/{user}/favourites', 'UserController@favourites');
 // Forum Discussions
 Route::get('forums/{tag?}', 'Forums\DiscussionController@index' );
 Route::get('forums/discussions/{discussion}', 'Forums\DiscussionController@show');
+Route::get('forums/discussions/game/{game}', 'Forums\DiscussionController@gameIndex');
 
 // Forum Posts
 Route::get('forums/discussions/{discussion}/posts', 'Forums\PostController@index');

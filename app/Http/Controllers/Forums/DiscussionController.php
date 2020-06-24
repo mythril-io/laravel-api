@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forums;
 
 use App\Forums\Discussion;
+use App\Game;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -30,6 +31,24 @@ class DiscussionController extends Controller
                     $query->where('slug', '=', $tag);
                 });
         })->filter($filters)->paginate(15);
+    }
+
+    /**
+     * Display a listing of the resource for a specified game.
+     *
+     * @param  \App\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function gameIndex(Game $game)
+    {
+        return Discussion::with([
+            'user',
+            'tags' => function($q) {$q->select('id', 'name', 'slug', 'colour');},
+            'games',
+            'lastPost' => function($q) {$q->with(['user']);}
+        ])->whereHas('games', function ($query) use (&$game) {
+            $query->where('id', '=', $game->id);
+        })->orderBy('last_posted_at', 'desc')->paginate(15);
     }
 
     /**
