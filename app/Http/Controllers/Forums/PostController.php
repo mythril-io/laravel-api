@@ -25,7 +25,7 @@ class PostController extends Controller
                     'parent' => function($q) {$q->with(['user']);}  
                 ]);},
             'replies' => function($q) {$q->with(['user']);}
-          ])->where('discussion_id', $discussion->id)->paginate(25);
+          ])->where('discussion_id', $discussion->id)->paginate(10);
 
         $num = ($posts->currentPage() - 1) * $posts->perPage() + 1;
 
@@ -49,7 +49,7 @@ class PostController extends Controller
             ['discussion_id', '=', $post->discussion_id],
         ])->count();
 
-        $page = ceil($position/25);
+        $page = ceil($position/10);
 
         return $page;
 
