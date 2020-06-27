@@ -81,8 +81,12 @@ Route::get('forums/posts/{post}/find', 'Forums\PostController@find');
 // Forum Tags
 Route::get('forums/tags/all', 'Forums\TagController@index');
 
+// Platforms
+Route::get('platforms', 'PlatformController@index');
+Route::get('platforms/{platform}', 'PlatformController@show');
+Route::get('all-platforms', 'PlatformController@all');
+
 // Misc
-Route::get('platforms/all', 'PlatformController@all');
 Route::get('genres/all', 'GenreController@all');
 Route::get('developers/all', 'DeveloperController@all');
 Route::get('publishers/all', 'PublisherController@all');
@@ -166,5 +170,10 @@ Route::group([
     Route::post('releases', 'ReleaseController@store');
     Route::patch('releases/{release}', 'ReleaseController@update');
     Route::delete('releases/{release}', 'ReleaseController@destroy');
+
+    // Games
+    Route::post('platforms', 'PlatformController@store');
+    Route::put('platforms/{platform}', 'PlatformController@update');
+    Route::delete('platforms/{platform}', 'PlatformController@destroy');
 
 });

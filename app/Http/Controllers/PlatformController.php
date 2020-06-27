@@ -73,7 +73,7 @@ class PlatformController extends Controller
         // Validate
         $input = $request->only('name', 'acronym');
         $this->validate($request, [
-            'name' => 'required|unique:platforms,name,'.$id,
+            'name' => 'required|unique:platforms,name,'.$platform->id,
             'acronym' => 'nullable|string'
         ]);
 
