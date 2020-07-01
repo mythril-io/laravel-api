@@ -33,28 +33,28 @@ class GameFilters extends QueryFilters
         return $this->builder;
     }
 
-    // /**
-    //  * Filter by popularity, rating or recently added.
-    //  *
-    //  * @param  string $order
-    //  * @return Builder
-    //  */
-    // public function sort($order = 'popular')
-    // {
-    //     if($order == 'popular') 
-    //     {
-    //         return $this->builder->orderByRaw('-popularity_rank desc');
-    //     }
-    //     else if($order == 'recent') 
-    //     {
-    //         return $this->builder->orderBy('created_at', 'desc');
-    //     }
-    //     else if($order == 'rating') 
-    //     {
-    //         return $this->builder->orderByRaw('-score_rank desc');
-    //     }
-    //     else { return $this->builder; }
-    // }
+    /**
+     * Filter by popularity, rating or recently added.
+     *
+     * @param  string $order
+     * @return Builder
+     */
+    public function sort($order = 'popular')
+    {
+        if($order == 'popular') 
+        {
+            return $this->builder->orderByRaw('-popularity_rank desc');
+        }
+        else if($order == 'recent') 
+        {
+            return $this->builder->orderBy('created_at', 'desc');
+        }
+        else if($order == 'rating') 
+        {
+            return $this->builder->orderByRaw('-score_rank desc');
+        }
+        else { return $this->builder; }
+    }
 
     /**
      * Filter by developers.
