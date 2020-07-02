@@ -73,7 +73,7 @@ class DeveloperController extends Controller
         // Validate
         $input = $request->only('name', 'country');
         $this->validate($request, [
-            'name' => 'required|unique:developers,name,'.$id,
+            'name' => 'required|unique:developers,name,'.$developer->id,
             'country' => 'required',
         ]);
 

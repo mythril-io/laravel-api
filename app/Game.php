@@ -23,7 +23,7 @@ class Game extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at', 'user_id', 'developer_id'
+        'updated_at', 'user_id', 'developer_id'
     ];
 
     /**

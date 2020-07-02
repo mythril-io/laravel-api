@@ -71,7 +71,7 @@ class PlayStatusController extends Controller
         // Validate
         $input = $request->only('name');
         $this->validate($request, [
-            'name' => 'required|unique:play_statuses,name,'.$id,
+            'name' => 'required|unique:play_statuses,name,'.$playStatus->id,
         ]);
 
         // Update

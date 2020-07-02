@@ -73,7 +73,7 @@ class PublisherController extends Controller
         // Validate
         $input = $request->only('name', 'country');
         $this->validate($request, [
-            'name' => 'required|unique:publishers,name,'.$id,
+            'name' => 'required|unique:publishers,name,'.$publisher->id,
             'country' => 'required',
         ]);
 
