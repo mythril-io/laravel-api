@@ -73,7 +73,7 @@ class RegionController extends Controller
         // Validate
         $input = $request->only('name', 'acronym');
         $this->validate($request, [
-            'name' => 'required|unique:regions,name,'.$id,
+            'name' => 'required|unique:regions,name,'.$region->id,
             'acronym' => 'nullable|string'
         ]);
 

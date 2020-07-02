@@ -38,7 +38,7 @@ class GenreController extends Controller
         // Validate 
         $this->validate($request, [
             'name' => 'required|unique:genres',
-            'acronym' => ''
+            'acronym' => 'nullable|string'
         ]);
 
         // Create
@@ -71,9 +71,10 @@ class GenreController extends Controller
     public function update(Request $request, Genre $genre)
     {
         // Validate
-        $input = $request->only('name');
+        $input = $request->only('name', 'acronym');
         $this->validate($request, [
-            'name' => 'required|unique:genres,name,'.$id,
+            'name' => 'required|unique:genres,name,'.$genre->id,
+            'acronym' => 'nullable|string'
         ]);
 
         // Update

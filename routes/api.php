@@ -86,10 +86,22 @@ Route::get('platforms', 'PlatformController@index');
 Route::get('platforms/{platform}', 'PlatformController@show');
 Route::get('all-platforms', 'PlatformController@all');
 
+// Developers
+Route::get('developers', 'DeveloperController@index');
+Route::get('developers/{developer}', 'DeveloperController@show');
+Route::get('all-developers', 'DeveloperController@all');
+
+// Publishers
+Route::get('publishers', 'PublisherController@index');
+Route::get('publishers/{publisher}', 'PublisherController@show');
+Route::get('all-publishers', 'PublisherController@all');
+
+// Genres
+Route::get('genres', 'GenreController@index');
+Route::get('genres/{genre}', 'GenreController@show');
+Route::get('all-genres', 'GenreController@all');
+
 // Misc
-Route::get('genres/all', 'GenreController@all');
-Route::get('developers/all', 'DeveloperController@all');
-Route::get('publishers/all', 'PublisherController@all');
 Route::get('playstatuses/all', 'PlayStatusController@all');
 Route::get('datetypes/all', 'DateTypeController@all');
 Route::get('regions/all', 'RegionController@all');
@@ -171,9 +183,27 @@ Route::group([
     Route::patch('releases/{release}', 'ReleaseController@update');
     Route::delete('releases/{release}', 'ReleaseController@destroy');
 
-    // Games
+    // Platforms
     Route::post('platforms', 'PlatformController@store');
     Route::put('platforms/{platform}', 'PlatformController@update');
     Route::delete('platforms/{platform}', 'PlatformController@destroy');
+
+    // Developers
+    Route::post('developers', 'DeveloperController@store');
+    Route::put('developers/{developer}', 'DeveloperController@update');
+    Route::delete('developers/{developer}', 'DeveloperController@destroy');
+
+    // Publishers
+    Route::post('publishers', 'PublisherController@store');
+    Route::put('publishers/{publisher}', 'PublisherController@update');
+    Route::delete('publishers/{publisher}', 'PublisherController@destroy');
+
+    // Genres
+    Route::post('genres', 'GenreController@store');
+    Route::put('genres/{genre}', 'GenreController@update');
+    Route::delete('genres/{genre}', 'GenreController@destroy');
+
+    // Stats
+    Route::get('admin/dashboard', 'AdminController@dashboard');
 
 });

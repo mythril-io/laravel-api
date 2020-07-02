@@ -71,7 +71,7 @@ class DateTypeController extends Controller
         // Validate
         $input = $request->only('format');
         $this->validate($request, [
-            'format' => 'required|unique:date_types,format,'.$id,
+            'format' => 'required|unique:date_types,format,'.$dateType->id,
         ]);
 
         // Update
