@@ -67,12 +67,12 @@ class GameController extends Controller
         // Upload icon
         $icon = Image::make($request->get('icon'));
         $iconName = $game->id.'.'.explode('/', $icon->mime() )[1];
-        Storage::disk('s3')->put("games/icons/$iconName", (string) $icon->stream(), 'public');
+        Storage::put("games/icons/$iconName", (string) $icon->stream(), 'public');
 
         // Upload banner
         $banner = Image::make($request->get('banner'));
         $bannerName = $game->id.'.'.explode('/', $banner->mime() )[1];
-        Storage::disk('s3')->put("games/banners/$bannerName", (string) $banner->stream(), 'public');
+        Storage::put("games/banners/$bannerName", (string) $banner->stream(), 'public');
 
         // Update game properties
         $game->icon = $iconName;
@@ -123,19 +123,19 @@ class GameController extends Controller
 
         // Update icon
         if(!empty($request->icon)) {
-            !empty($game->icon) ? Storage::disk('s3')->delete("games/icons/$game->icon") : '';
+            !empty($game->icon) ? Storage::delete("games/icons/$game->icon") : '';
             $icon = Image::make($request->get('icon'));
             $iconName = $game->id.'.'.explode('/', $icon->mime() )[1];
-            Storage::disk('s3')->put("games/icons/$iconName", (string) $icon->stream(), 'public');
+            Storage::put("games/icons/$iconName", (string) $icon->stream(), 'public');
             $game->icon = $iconName;
         }
 
         // Update banner
         if(!empty($request->banner)) {
-            !empty($game->banner) ? Storage::disk('s3')->delete("games/banners/$game->banner") : '';
+            !empty($game->banner) ? Storage::delete("games/banners/$game->banner") : '';
             $banner = Image::make($request->get('banner'));
             $bannerName = $game->id.'.'.explode('/', $banner->mime() )[1];
-            Storage::disk('s3')->put("games/banners/$bannerName", (string) $banner->stream(), 'public');
+            Storage::put("games/banners/$bannerName", (string) $banner->stream(), 'public');
             $game->banner = $bannerName;
         }
 
@@ -158,8 +158,8 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {    
-        Storage::disk('s3')->delete("games/banners/$game->banner");
-        Storage::disk('s3')->delete("games/icons/$game->icon");
+        Storage::delete("games/banners/$game->banner");
+        Storage::delete("games/icons/$game->icon");
 
         $game->delete();
 
