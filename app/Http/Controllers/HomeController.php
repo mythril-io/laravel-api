@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function featured()
     {
-        return Game::with('genres', 'developer')->where('title', 'Final Fantasy VII Remake')->first();
+        return Game::with('genres', 'developer')->where('title', 'Elden Ring')->first();
     }
 
     /**

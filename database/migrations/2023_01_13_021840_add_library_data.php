@@ -41,12 +41,22 @@ class AddLibraryData extends Migration
                 'user_id' => User::firstWhere('username', 'Sephiroth')->id,
                 'release_id' => Game::firstWhere('title', 'Final Fantasy VII Remake')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Completed')->id,
-                'score' => 10,
+                'score' => 8,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->subMonths(1)->toDateTimeString(),
                 'updated_at' => \Carbon\Carbon::now()->subMonths(1)->toDateTimeString()
             ],
+            [
+                'user_id' => User::firstWhere('username', 'Hunter')->id,
+                'release_id' => Game::firstWhere('title', 'World of Warcraft')->releases()->first()->id,
+                'play_status_id' => PlayStatus::firstWhere('name', 'Completed')->id,
+                'score' => null,
+                'own'=> true,
+                'digital' => false,
+                'created_at' => \Carbon\Carbon::now()->subMonths(1)->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->subMonths(1)->toDateTimeString()
+            ],            
             [
                 'user_id' => User::firstWhere('username', 'Sephiroth')->id,
                 'release_id' => Game::firstWhere('title', '13 Sentinels: Aegis Rim')->releases()->first()->id,
@@ -61,7 +71,7 @@ class AddLibraryData extends Migration
                 'user_id' => User::firstWhere('username', 'Zelda')->id,
                 'release_id' => Game::firstWhere('title', 'The Legend of Zelda: Breath of the Wild')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
-                'score' => 10,
+                'score' => 9,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->subDays(12)->toDateTimeString(),
@@ -71,7 +81,7 @@ class AddLibraryData extends Migration
                 'user_id' => User::firstWhere('username', 'Cloud')->id,
                 'release_id' => Game::firstWhere('title', 'Final Fantasy VII Remake')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
-                'score' => 10,
+                'score' => 9,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->subDays(10)->toDateTimeString(),
@@ -79,9 +89,9 @@ class AddLibraryData extends Migration
             ],
             [
                 'user_id' => User::firstWhere('username', 'Hunter')->id,
-                'release_id' => Game::firstWhere('title', 'Nier: Automata')->releases()->first()->id,
+                'release_id' => Game::firstWhere('title', 'Elden Ring')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
-                'score' => 10,
+                'score' => 8,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->subDays(5)->toDateTimeString(),
@@ -89,9 +99,9 @@ class AddLibraryData extends Migration
             ],
             [
                 'user_id' => User::firstWhere('username', 'Balthier')->id,
-                'release_id' => Game::firstWhere('title', 'Diablo IV')->releases()->first()->id,
+                'release_id' => Game::firstWhere('title', 'Diablo II')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
-                'score' => 10,
+                'score' => 9,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->subDays(3)->toDateTimeString(),
@@ -101,7 +111,27 @@ class AddLibraryData extends Migration
                 'user_id' => User::firstWhere('username', 'Zelda')->id,
                 'release_id' => Game::firstWhere('title', 'The Legend of Zelda: Tears of the Kingdom')->releases()->first()->id,
                 'play_status_id' => PlayStatus::firstWhere('name', 'Planning')->id,
-                'score' => 10,
+                'score' => null,
+                'own'=> true,
+                'digital' => false,
+                'created_at' => \Carbon\Carbon::now()->subDays(2)->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->subDays(2)->toDateTimeString()
+            ],
+            [
+                'user_id' => User::firstWhere('username', 'Hunter')->id,
+                'release_id' => Game::firstWhere('title', 'World of Warcraft: Wrath of the Lich King')->releases()->first()->id,
+                'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
+                'score' => null,
+                'own'=> true,
+                'digital' => false,
+                'created_at' => \Carbon\Carbon::now()->subDays(1)->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->subDays(1)->toDateTimeString()
+            ],
+            [
+                'user_id' => User::firstWhere('username', 'Tracer')->id,
+                'release_id' => Game::firstWhere('title', 'Overwatch 2')->releases()->first()->id,
+                'play_status_id' => PlayStatus::firstWhere('name', 'Currently Playing')->id,
+                'score' => 9,
                 'own'=> true,
                 'digital' => false,
                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
@@ -126,8 +156,11 @@ class AddLibraryData extends Migration
         User::firstWhere('username', 'Zelda')->toggleFavorite($release);
         User::firstWhere('username', 'Link')->toggleFavorite($release);
 
-        $release = Game::firstWhere('title', 'Nier: Automata')->releases()->first();
+        $release = Game::firstWhere('title', 'Elden Ring')->releases()->first();
         User::firstWhere('username', 'Hunter')->toggleFavorite($release);
+
+        $release = Game::firstWhere('title', 'Overwatch 2')->releases()->first();
+        User::firstWhere('username', 'Tracer')->toggleFavorite($release);
     }
 
     /**

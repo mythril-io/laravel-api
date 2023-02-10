@@ -28,8 +28,8 @@ class AddRecommendationData extends Migration
             ],
             [
                 'user_id' => User::where('username', 'Cloud')->first()->id,
-                'release_id' => Game::firstWhere('title', '13 Sentinels: Aegis Rim')->releases()->first()->id,
-                'second_release_id' => Game::firstWhere('title', 'Persona 4')->releases()->first()->id,
+                'release_id' => Game::firstWhere('title', 'World of Warcraft')->releases()->first()->id,
+                'second_release_id' => Game::firstWhere('title', 'World of Warcraft: Wrath of the Lich King')->releases()->first()->id,
                 'content' => $lipsum->paragraphs(3),
                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
