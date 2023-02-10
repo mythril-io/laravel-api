@@ -121,10 +121,10 @@ class AddInitialData extends Migration
             ['name' => 'Square-Enix', 'country' => 'Japan'],
             ['name' => 'Square', 'country' => 'Japan'],
             ['name' => 'Nintendo', 'country' => 'Japan'],
-            ['name' => 'Bandai Namco Entertainment', 'country' => 'Japan'],
             ['name' => 'Capcom', 'country' => 'Japan'],
             ['name' => 'Sega', 'country' => 'Japan'],
             ['name' => 'Atlus', 'country' => 'Japan'],
+            ['name' => 'FromSoftware', 'country' => 'Japan'],
             
             ['name' => 'Blizzard Entertainment', 'country' => 'USA'],
             ['name' => 'Activision Blizzard', 'country' => 'USA'],
@@ -137,6 +137,7 @@ class AddInitialData extends Migration
             ['name' => 'Valve', 'country' => 'USA'],
             ['name' => 'Atlus USA', 'country' => 'USA'],
             ['name' => 'NIS America', 'country' => 'USA'],
+            ['name' => 'Bandai Namco Entertainment', 'country' => 'North America'],
 
             ['name' => 'CD Projekt', 'country' => 'Poland']
 
